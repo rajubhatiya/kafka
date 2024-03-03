@@ -49,6 +49,7 @@ public class LocationService {
                 for (ConsumerRecord<String, String> record : records) {
                     // Commit the offset
                     Map<TopicPartition, OffsetAndMetadata> commitData = new HashMap<>();
+                    System.out.println("current record offset value "+record.offset());
                     commitData.put(new TopicPartition(record.topic(), record.partition()), new OffsetAndMetadata(record.offset() + 1));
                     consumer.commitSync(commitData);
                 }

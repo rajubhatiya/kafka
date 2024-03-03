@@ -1,6 +1,7 @@
 package com.rbhatiya.cabbookdriver.controller;
 
 import com.rbhatiya.cabbookdriver.service.CabLocationService;
+import com.rbhatiya.cabbookdriver.service.CabLocationServiceStreamAPI;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class CabLocationController {
     @Autowired
     private CabLocationService cabLocationService;
 
+    @Autowired
+    private CabLocationServiceStreamAPI cabLocationServiceStreamAPI;
     /**
      * Method to update location
      * @return
@@ -48,5 +51,11 @@ public class CabLocationController {
         return new ResponseEntity<>(Map.of("message", "Location Created Successfully"), HttpStatus.OK);
     }
 
+
+    @PutMapping("/stream")
+    public ResponseEntity updateLocationStream() throws InterruptedException {
+        cabLocationServiceStreamAPI.produceUskingKafkaSream();
+        return new ResponseEntity<>(Map.of("message", "Location Updated Successfully"), HttpStatus.OK);
+    }
 
 }
